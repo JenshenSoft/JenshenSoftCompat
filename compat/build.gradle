@@ -9,7 +9,7 @@ def testLibs = rootProject.ext.testingLibraries;
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'compat'
-    packaging 'aar'
+
     publishedGroupId = 'ua.jenshensoft'
     libraryName = 'Compat'
     artifact = 'compat'
