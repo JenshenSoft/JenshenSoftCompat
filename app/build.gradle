@@ -1,0 +1,39 @@
+apply plugin: 'com.android.application'
+
+def cfg = rootProject.ext.configuration
+def libs = rootProject.ext.libraries;
+def testLibs = rootProject.ext.testingLibraries;
+
+android {
+
+    compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
+
+    defaultConfig {
+        applicationId "com.jenshen.compat.example"
+        minSdkVersion cfg.minSdkVersion
+        targetSdkVersion cfg.targetSdkVersion
+        versionCode cfg.versionCode
+        versionName cfg.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //support
+    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+
+    //testing
+    testCompile "junit:junit:${testLibs.junit}"
+}

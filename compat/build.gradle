@@ -1,0 +1,63 @@
+apply plugin: 'com.android.library'
+apply plugin: 'android-apt'
+apply plugin: 'me.tatarka.retrolambda'
+
+def cfg = rootProject.ext.configuration
+def libs = rootProject.ext.libraries;
+def testLibs = rootProject.ext.testingLibraries;
+
+android {
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        warningsAsErrors = true;
+    }
+
+    compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion cfg.minSdkVersion
+        targetSdkVersion cfg.targetSdkVersion
+        versionCode cfg.versionCode
+        versionName cfg.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //support
+    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+
+    //Dagger 2
+    compile "com.google.dagger:dagger:${libs.daggerVersion}"
+    apt "com.google.dagger:dagger-compiler:${libs.daggerVersion}"
+
+    //mosby
+    compile "com.hannesdorfmann.mosby:mvp:${libs.mosbyVersion}"
+    compile "com.hannesdorfmann.mosby:viewstate:${libs.mosbyVersion}"
+
+    //reactive
+    compile "io.reactivex.rxjava2:rxjava:${libs.reactiveVersion}"
+    compile "io.reactivex.rxjava2:rxandroid:${libs.reactiveVersion}"
+
+    //testing
+    testCompile "junit:junit:${testLibs.junit}"
+}
