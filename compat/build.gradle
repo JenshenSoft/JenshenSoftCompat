@@ -9,7 +9,7 @@ def testLibs = rootProject.ext.testingLibraries;
 ext {
     bintrayRepo = 'maven'
     bintrayName = 'compat'
-
+    packaging 'aar'
     publishedGroupId = 'ua.jenshensoft'
     libraryName = 'Compat'
     artifact = 'compat'
@@ -85,7 +85,6 @@ dependencies {
     //testing
     testCompile "junit:junit:${testLibs.junit}"
 }
-/*
-// Place it at the end of the file
+
 apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'*/
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
