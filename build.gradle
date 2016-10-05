@@ -36,7 +36,7 @@ buildscript {
         classpath 'me.tatarka:gradle-retrolambda:3.2.2'
 
         // Required plugins added to classpath to facilitate pushing to Jcenter/Bintray
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.4'
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
 
         // NOTE: Do not place your application dependencies here; they belong
