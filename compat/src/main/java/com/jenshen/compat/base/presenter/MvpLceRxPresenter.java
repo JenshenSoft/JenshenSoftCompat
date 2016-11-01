@@ -17,38 +17,18 @@
 
 package com.jenshen.compat.base.presenter;
 
-import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 
-import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
-import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.subscribers.completable.CallbackCompletableObserver;
-import io.reactivex.internal.subscribers.single.ConsumerSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
-public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
-        extends MvpBasePresenter<V>
-        implements MvpPresenter<V> {
-
-    private CompositeDisposable compositeDisposable;
-
-    /**
-     * Unsubscribes the observers and set it to null
-     */
-    protected void unsubscribe() {
-        if (compositeDisposable != null) {
-            compositeDisposable.clear();
-            compositeDisposable = null;
-        }
-    }
+public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>> extends MvpRxPresenter<V> {
 
     /**
      * Subscribes the presenter himself as observer on the observable
@@ -128,41 +108,6 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>>
         if (isViewAttached()) {
             getView().setData(data);
         }
-    }
-
-    /* completable */
-
-    protected void subscribe(Completable observable, CallbackCompletableObserver observer) {
-        subscribe(Schedulers.io(), observable, observer);
-    }
-    protected void subscribe(Scheduler scheduler, Completable observable, CallbackCompletableObserver observer) {
-        compositeDisposable.add(observable.subscribeOn(scheduler)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer));
-    }
-
-    /* single */
-
-    /**
-     * Subscribes the presenter himself as observer on the observable
-     *
-     * @param observable The observable to subscribe
-     */
-
-    protected <T> void subscribe(Single<T> observable, ConsumerSingleObserver<T> observer) {
-        subscribe(Schedulers.io(), observable, observer);
-    }
-
-    /**
-     * Subscribes the presenter himself as observer on the observable
-     *
-     * @param observable The observable to subscribe
-     */
-
-    protected <T> void subscribe(Scheduler scheduler, Single<T> observable, ConsumerSingleObserver<T> observer) {
-        compositeDisposable.add(observable.subscribeOn(scheduler)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(observer));
     }
 
     @Override

@@ -16,7 +16,7 @@ def gitUrl = 'https://github.com/JenshenSoft/JenshenSoftCompat.git'
 def libDesc = "JenshenSoft compat android library"
 
 group = "ua.jenshensoft"
-version = "0.1"
+version = "0.13"
 
 allprojects {
     repositories {
@@ -39,7 +39,7 @@ android {
 
     compileSdkVersion cfg.compileSdkVersion
     buildToolsVersion cfg.buildToolsVersion
-    resourcePrefix "compat__"
+    resourcePrefix "compat_"
 
     defaultConfig {
         minSdkVersion cfg.minSdkVersion
