@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'android-apt'
-apply plugin: 'me.tatarka.retrolambda'
 
 //bintray
 apply plugin: 'com.github.dcendents.android-maven'
@@ -16,7 +14,7 @@ def gitUrl = 'https://github.com/JenshenSoft/JenshenSoftCompat.git'
 def libDesc = "JenshenSoft compat android library"
 
 group = "ua.jenshensoft"
-version = "0.14"
+version = "0.16"
 
 allprojects {
     repositories {
@@ -31,11 +29,6 @@ buildscript {
 }
 
 android {
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
 
     compileSdkVersion cfg.compileSdkVersion
     buildToolsVersion cfg.buildToolsVersion
@@ -141,10 +134,6 @@ dependencies {
 
     //support
     compile "com.android.support:appcompat-v7:${libs.supportVersion}"
-
-    //Dagger 2
-    compile "com.google.dagger:dagger:${libs.daggerVersion}"
-    apt "com.google.dagger:dagger-compiler:${libs.daggerVersion}"
 
     //mosby
     compile "com.hannesdorfmann.mosby:mvp:${libs.mosbyVersion}"

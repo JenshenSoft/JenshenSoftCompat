@@ -2,6 +2,7 @@ package com.jenshen.compat.base.view.impl.mvp.lce;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
@@ -34,13 +35,16 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends MvpLceVie
         return throwable.getMessage() != null ? throwable.getMessage() : getString(R.string.error_unknown);
     }
 
-    protected AlertDialog.Builder createAlertDialog(String message, @Nullable DoOnError doOnError) {
+    protected AlertDialog.Builder createAlertDialog(String message, final @Nullable DoOnError doOnError) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder.setTitle(getString(R.string.warning))
                 .setMessage(message)
-                .setOnDismissListener(v -> {
-                    if (doOnError != null)
-                        doOnError.doOnError();
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface v) {
+                        if (doOnError != null)
+                            doOnError.doOnError();
+                    }
                 })
                 .setPositiveButton(R.string.ok, null);
     }
@@ -48,7 +52,6 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends MvpLceVie
 
     /* Functional interface */
 
-    @FunctionalInterface
     public interface DoOnError {
         void doOnError();
     }
