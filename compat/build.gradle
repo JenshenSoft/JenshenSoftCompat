@@ -16,7 +16,7 @@ def gitUrl = 'https://github.com/JenshenSoft/JenshenSoftCompat.git'
 def libDesc = "JenshenSoft compat android library"
 
 group = "ua.jenshensoft"
-version = "0.13"
+version = "0.14"
 
 allprojects {
     repositories {
