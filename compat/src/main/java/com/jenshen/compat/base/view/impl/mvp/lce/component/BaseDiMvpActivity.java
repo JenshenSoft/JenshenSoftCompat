@@ -5,14 +5,14 @@ import android.support.annotation.NonNull;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.jenshen.compat.base.component.PresenterComponent;
 import com.jenshen.compat.base.view.BaseMvpView;
-import com.jenshen.compat.base.view.impl.mvp.BaseMvpFragment;
+import com.jenshen.compat.base.view.impl.mvp.BaseMvpActivity;
 
 public abstract class BaseDiMvpActivity<
         Component extends PresenterComponent<V, P>,
         V extends BaseMvpView,
         P extends MvpPresenter<V>>
 
-        extends BaseMvpFragment<V, P> {
+        extends BaseMvpActivity<V, P> {
 
     protected final Component component;
 
