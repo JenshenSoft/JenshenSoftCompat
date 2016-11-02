@@ -17,15 +17,19 @@
 
 package com.jenshen.compat.base.presenter;
 
+import android.support.annotation.Nullable;
+
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 import com.hannesdorfmann.mosby.mvp.MvpView;
 
 import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 
 
 public abstract class MvpRxPresenter<V extends MvpView> extends MvpBasePresenter<V> {
 
-    protected CompositeDisposable compositeDisposable;
+    @Nullable
+    private CompositeDisposable compositeDisposable;
 
     /**
      * Unsubscribes the observers and set it to null
@@ -37,10 +41,8 @@ public abstract class MvpRxPresenter<V extends MvpView> extends MvpBasePresenter
         }
     }
 
-    @Override
-    public void attachView(V view) {
-        super.attachView(view);
-        compositeDisposable = new CompositeDisposable();
+    public void addDisposible(Disposable disposable) {
+        getCompositeDisposable().add(disposable);
     }
 
     @Override
@@ -49,5 +51,12 @@ public abstract class MvpRxPresenter<V extends MvpView> extends MvpBasePresenter
         if (!retainInstance) {
             unsubscribe();
         }
+    }
+
+    protected CompositeDisposable getCompositeDisposable() {
+        if (compositeDisposable == null) {
+            compositeDisposable =  new CompositeDisposable();
+        }
+        return compositeDisposable;
     }
 }

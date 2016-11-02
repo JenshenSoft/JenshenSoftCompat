@@ -23,7 +23,6 @@ import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -43,20 +42,20 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>> extends MvpR
 
             @Override
             public void onComplete() {
-                compositeDisposable.remove(disposable);
+                getCompositeDisposable().remove(disposable);
                 MvpLceRxPresenter.this.onComplete();
             }
 
             @Override
             public void onError(Throwable e) {
-                compositeDisposable.remove(disposable);
+                getCompositeDisposable().remove(disposable);
                 MvpLceRxPresenter.this.onError(e, pullToRefresh);
             }
 
             @Override
             public void onSubscribe(Disposable disposable) {
                 this.disposable = disposable;
-                compositeDisposable.add(disposable);
+                getCompositeDisposable().add(disposable);
                 MvpLceRxPresenter.this.onSubscribe(pullToRefresh);
             }
 
@@ -107,20 +106,6 @@ public abstract class MvpLceRxPresenter<M, V extends MvpLceView<M>> extends MvpR
     protected void onNext(M data) {
         if (isViewAttached()) {
             getView().setData(data);
-        }
-    }
-
-    @Override
-    public void attachView(V view) {
-        super.attachView(view);
-        compositeDisposable = new CompositeDisposable();
-    }
-
-    @Override
-    public void detachView(boolean retainInstance) {
-        super.detachView(retainInstance);
-        if (!retainInstance) {
-            unsubscribe();
         }
     }
 }
