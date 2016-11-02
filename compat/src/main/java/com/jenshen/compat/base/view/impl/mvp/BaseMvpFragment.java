@@ -6,12 +6,11 @@ import android.support.annotation.Nullable;
 
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby.mvp.MvpView;
 import com.jenshen.compat.base.view.BaseMvpView;
 import com.jenshen.compat.util.delegate.ViewDelegateFragment;
 
 
-public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<V>> extends MvpFragment<V, P> implements BaseMvpView {
+public abstract class BaseMvpFragment<V extends BaseMvpView, P extends MvpPresenter<V>> extends MvpFragment<V, P> implements BaseMvpView {
 
     @Nullable
     private ViewDelegateFragment viewDelegate;

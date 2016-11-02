@@ -1,19 +1,19 @@
-package com.jenshen.compat.base.view.impl.mvp.lce.component;
+package com.jenshen.compat.base.view.impl.mvp.lce.component.lce;
 
 
 import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
-import com.jenshen.compat.base.component.PresenterComponent;
+import com.jenshen.compat.base.component.PresenterLceComponent;
+import com.jenshen.compat.base.view.BaseLceMvpView;
 import com.jenshen.compat.base.view.impl.mvp.lce.BaseLceMvpActivity;
 
 public abstract class BaseDiLceMvpActivity<
-        Component extends PresenterComponent<M, V, P>,
+        Component extends PresenterLceComponent<M, V, P>,
         CV extends View,
         M,
-        V extends MvpLceView<M>,
+        V extends BaseLceMvpView<M>,
         P extends MvpPresenter<V>>
 
         extends BaseLceMvpActivity<CV, M, V, P> {

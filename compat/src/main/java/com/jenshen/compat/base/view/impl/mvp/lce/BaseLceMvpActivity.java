@@ -8,12 +8,11 @@ import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
 import com.jenshen.compat.base.view.BaseLceMvpView;
 import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 
 
-public abstract class BaseLceMvpActivity<CV extends View, M, V extends MvpLceView<M>, P extends MvpPresenter<V>>
+public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMvpView<M>, P extends MvpPresenter<V>>
         extends MvpLceActivity<CV, M, V, P>
         implements BaseLceMvpView<M> {
 

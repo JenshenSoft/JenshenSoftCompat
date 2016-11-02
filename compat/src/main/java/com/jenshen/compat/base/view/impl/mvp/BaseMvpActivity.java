@@ -7,12 +7,11 @@ import android.support.annotation.Nullable;
 
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby.mvp.MvpView;
 import com.jenshen.compat.base.view.BaseMvpView;
 import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 
 
-public abstract class BaseMvpActivity<V extends MvpView, P extends MvpPresenter<V>> extends MvpActivity<V, P> implements BaseMvpView {
+public abstract class BaseMvpActivity<V extends BaseMvpView, P extends MvpPresenter<V>> extends MvpActivity<V, P> implements BaseMvpView {
 
     @Nullable
     private ViewDelegateActivity viewDelegate;
