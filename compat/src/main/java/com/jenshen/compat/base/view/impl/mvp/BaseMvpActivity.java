@@ -1,21 +1,18 @@
-package com.jenshen.compat.base.view.impl.mvp.lce;
+package com.jenshen.compat.base.view.impl.mvp;
 
-
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
-import com.jenshen.compat.base.view.BaseLceMvpView;
+import com.hannesdorfmann.mosby.mvp.MvpView;
+import com.jenshen.compat.base.view.BaseMvpView;
 import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 
 
-public abstract class BaseLceMvpActivity<CV extends View, M, V extends MvpLceView<M>, P extends MvpPresenter<V>>
-        extends MvpLceActivity<CV, M, V, P>
-        implements BaseLceMvpView<M> {
+public abstract class BaseMvpActivity<V extends MvpView, P extends MvpPresenter<V>> extends MvpActivity<V, P> implements BaseMvpView {
 
     @Nullable
     private ViewDelegateActivity viewDelegate;
@@ -30,6 +27,11 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends MvpLceVie
     }
 
     /* view */
+
+    @Override
+    public Context getContext() {
+        return this;
+    }
 
     @Override
     public void handleError(Throwable throwable) {

@@ -1,31 +1,27 @@
-package com.jenshen.compat.base.view.impl.mvp.lce;
-
+package com.jenshen.compat.base.view.impl.mvp;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.view.View;
 
+import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
-import com.hannesdorfmann.mosby.mvp.lce.MvpLceView;
-import com.jenshen.compat.base.view.BaseLceMvpView;
-import com.jenshen.compat.util.delegate.ViewDelegateActivity;
+import com.hannesdorfmann.mosby.mvp.MvpView;
+import com.jenshen.compat.base.view.BaseMvpView;
+import com.jenshen.compat.util.delegate.ViewDelegateFragment;
 
 
-public abstract class BaseLceMvpActivity<CV extends View, M, V extends MvpLceView<M>, P extends MvpPresenter<V>>
-        extends MvpLceActivity<CV, M, V, P>
-        implements BaseLceMvpView<M> {
+public abstract class BaseMvpFragment<V extends MvpView, P extends MvpPresenter<V>> extends MvpFragment<V, P> implements BaseMvpView {
 
     @Nullable
-    private ViewDelegateActivity viewDelegate;
+    private ViewDelegateFragment viewDelegate;
 
     /**
      * invoke this method on child constructor if you want to customise a delegate
      *
      * @param viewDelegate
      */
-    public void setViewDelegate(@NonNull ViewDelegateActivity viewDelegate) {
+    public void setViewDelegate(@NonNull ViewDelegateFragment viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
 
@@ -39,46 +35,46 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends MvpLceVie
     /* lifecycle */
 
     @Override
-    protected void onStart() {
+    public void onStart() {
         super.onStart();
         createDelegateIfNull().onStart();
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         createDelegateIfNull().onCreate(savedInstanceState);
     }
 
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
         createDelegateIfNull().onResume();
     }
 
     @Override
-    protected void onPause() {
+    public void onPause() {
         super.onPause();
         createDelegateIfNull().onPause();
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         createDelegateIfNull().onStop();
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
         createDelegateIfNull().onDestroy();
     }
 
     /* private methods */
 
-    private ViewDelegateActivity createDelegateIfNull() {
+    private ViewDelegateFragment createDelegateIfNull() {
         if (viewDelegate == null) {
-            viewDelegate = new ViewDelegateActivity(this);
+            viewDelegate = new ViewDelegateFragment(getContext());
         }
         return viewDelegate;
     }

@@ -1,38 +1,78 @@
 package com.jenshen.compat.base.view.impl;
 
-import android.content.DialogInterface;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
-import com.jenshen.compat.R;
 import com.jenshen.compat.base.view.BaseView;
-import com.jenshen.compat.base.view.impl.mvp.lce.BaseLceMvpActivity;
+import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
+    @Nullable
+    private ViewDelegateActivity viewDelegate;
+
+    /**
+     * invoke this method on child constructor if you want to customise a delegate
+     * @param viewDelegate
+     */
+    public void setViewDelegate(@NonNull ViewDelegateActivity viewDelegate) {
+        this.viewDelegate = viewDelegate;
+    }
 
     /* view */
 
     @Override
     public void handleError(Throwable throwable) {
-        throwable.printStackTrace();
-        String errorMessage = throwable.getMessage() != null ? throwable.getMessage() : getString(R.string.error_unknown);
-        createAlertDialog(errorMessage, null).show();
+        createDelegateIfNull().handleError(throwable);
     }
 
-    protected AlertDialog.Builder createAlertDialog(String message, final @Nullable BaseLceMvpActivity.DoOnError doOnError) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        return builder.setTitle(getString(R.string.warning))
-                .setMessage(message)
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface v) {
-                        if (doOnError != null)
-                            doOnError.doOnError();
-                    }
-                })
-                .setPositiveButton(R.string.ok, null);
+    /* lifecycle */
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        createDelegateIfNull().onStart();
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        createDelegateIfNull().onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        createDelegateIfNull().onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        createDelegateIfNull().onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        createDelegateIfNull().onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        createDelegateIfNull().onDestroy();
+    }
+
+    /* private methods */
+
+    private ViewDelegateActivity createDelegateIfNull() {
+        if (viewDelegate == null) {
+            viewDelegate = new ViewDelegateActivity(this);
+        }
+        return viewDelegate;
     }
 }
