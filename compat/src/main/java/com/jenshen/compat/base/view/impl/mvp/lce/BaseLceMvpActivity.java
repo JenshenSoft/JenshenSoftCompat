@@ -1,6 +1,7 @@
 package com.jenshen.compat.base.view.impl.mvp.lce;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
         this.viewDelegate = viewDelegate;
     }
 
+
     /* view */
 
     @Override
@@ -35,7 +37,19 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
         createDelegateIfNull().handleError(throwable);
     }
 
+    @Override
+    protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
+        return createDelegateIfNull().getErrorMessage(e);
+    }
+
+
     /* lifecycle */
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        createDelegateIfNull().onNewIntent(intent);
+    }
 
     @Override
     protected void onStart() {

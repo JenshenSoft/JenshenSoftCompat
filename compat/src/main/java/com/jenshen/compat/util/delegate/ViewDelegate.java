@@ -16,11 +16,11 @@ public abstract class ViewDelegate {
         this.context = context;
     }
 
-    protected String getErrorMessage(Throwable throwable) {
+    public String getErrorMessage(Throwable throwable) {
         return throwable.getMessage() != null ? throwable.getMessage() : context.getString(R.string.error_unknown);
     }
 
-    protected AlertDialog.Builder createAlertDialog(String message, final @Nullable DoOnError doOnError) {
+    public AlertDialog.Builder createAlertDialog(String message, final @Nullable DoOnError doOnError) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         return builder.setTitle(context.getString(R.string.warning))
                 .setMessage(message)

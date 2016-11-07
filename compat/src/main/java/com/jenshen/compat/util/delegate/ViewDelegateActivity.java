@@ -2,6 +2,7 @@ package com.jenshen.compat.util.delegate;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 public class ViewDelegateActivity extends ViewDelegate {
@@ -37,6 +38,10 @@ public class ViewDelegateActivity extends ViewDelegate {
     }
 
     public void onDestroy() {
+
+    }
+
+    public void onNewIntent(Intent intent) {
 
     }
 }
