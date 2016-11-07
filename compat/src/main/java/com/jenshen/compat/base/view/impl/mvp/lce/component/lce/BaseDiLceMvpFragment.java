@@ -18,6 +18,7 @@ public abstract class BaseDiLceMvpFragment<
 
         extends BaseLceMvpFragment<CV, M, V, P> {
 
+    @NonNull
     protected final Component component;
 
     public BaseDiLceMvpFragment() {
@@ -27,7 +28,7 @@ public abstract class BaseDiLceMvpFragment<
 
     public abstract Component createComponent();
 
-    public abstract void inject(Component fragmentComponent);
+    public abstract void inject(@NonNull Component fragmentComponent);
 
     @NonNull
     @Override

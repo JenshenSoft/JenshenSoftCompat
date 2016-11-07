@@ -18,7 +18,8 @@ public abstract class BaseDiLceMvpActivity<
 
         extends BaseLceMvpActivity<CV, M, V, P> {
 
-    public final Component component;
+    @NonNull
+    protected final Component component;
 
     public BaseDiLceMvpActivity() {
         component = createComponent();
@@ -27,7 +28,7 @@ public abstract class BaseDiLceMvpActivity<
 
     public abstract Component createComponent();
 
-    public abstract void inject(Component activityComponent);
+    public abstract void inject(@NonNull Component activityComponent);
 
     @NonNull
     @Override
