@@ -1,0 +1,148 @@
+apply plugin: 'com.android.library'
+
+//bintray
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+
+
+def cfg = rootProject.ext.configuration
+def libs = rootProject.ext.libraries;
+def testLibs = rootProject.ext.testingLibraries;
+
+def siteUrl = 'https://github.com/JenshenSoft/JenshenSoftCompat'
+def gitUrl = 'https://github.com/JenshenSoft/JenshenSoftCompat.git'
+def libDesc = "JenshenSoft compat android library"
+
+group = "ua.jenshensoft"
+version = "0.192"
+
+allprojects {
+    repositories {
+        mavenCentral()
+    }
+}
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+}
+
+android {
+
+    compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
+    resourcePrefix "compat_"
+
+    defaultConfig {
+        minSdkVersion cfg.minSdkVersion
+        targetSdkVersion cfg.targetSdkVersion
+        versionCode cfg.versionCode
+        versionName cfg.versionName
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = group
+        name = project.name
+        desc = libDesc
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ['Apache-2.0']
+        labels = ['aar', 'android', 'example']
+        publish = true
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                name "JenshenSoft compat android library"
+                url siteUrl
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'jenshen1992'
+                        name 'Yevhen'
+                        email 'samoilov.yevhen@gmail.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+
+                }
+            }
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    //options.encoding = 'UTF-8'
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+task findConventions << {
+    println project.getConvention()
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    //support
+    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+
+    //mosby
+    compile "com.hannesdorfmann.mosby:mvp:${libs.mosbyVersion}"
+    compile "com.hannesdorfmann.mosby:viewstate:${libs.mosbyVersion}"
+
+    //reactive
+    compile "io.reactivex.rxjava2:rxjava:${libs.reactiveVersion}"
+    compile "io.reactivex.rxjava2:rxandroid:${libs.reactiveVersion}"
+
+    //testing
+    testCompile "junit:junit:${testLibs.junit}"
+}

@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">JenshenSoftCompat</string>
+
+    <!--dialogs-->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="error_unknown">Something went wrong =(</string>
+    <string name="warning">Warning</string>
+
+</resources>
