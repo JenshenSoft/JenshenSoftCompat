@@ -1,6 +1,7 @@
 package com.jenshen.compat.base.view.impl.mvp.lce;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceFragment;
+import com.jenshen.compat.R;
 import com.jenshen.compat.base.view.BaseLceMvpView;
 import com.jenshen.compat.util.delegate.ViewDelegateFragment;
 
@@ -24,6 +26,8 @@ public abstract class BaseLceMvpFragment<
 
     @Nullable
     private ViewDelegateFragment viewDelegate;
+    @Nullable
+    private ProgressDialog dialog;
     
     /**
      * invoke this method on child constructor if you want to customise a delegate
@@ -35,6 +39,22 @@ public abstract class BaseLceMvpFragment<
     }
 
     /* view */
+
+    @Override
+    public void showProgress() {
+        if (dialog != null) {
+            hideProgress();
+        }
+        dialog = ProgressDialog.show(getContext(), getString(R.string.loading), getString(R.string.please_wait));
+    }
+
+    @Override
+    public void hideProgress() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
+    }
 
     @Override
     public void handleError(Throwable throwable) {
