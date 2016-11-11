@@ -15,6 +15,8 @@ ext {
             reactiveVersion: "2.0.0",
             /* https://github.com/aNNiMON/Lightweight-Stream-API */
             mosbyVersion   : "2.0.1",
+            rx_java_version             : '2.0.0',
+            rx_android_version          : '2.0.0',
             dagger_version : '2.7',
     ]
 

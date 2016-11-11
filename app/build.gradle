@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+def cfg = rootProject.ext.configuration
+def libs = rootProject.ext.libraries;
+def testLibs = rootProject.ext.testingLibraries;
 
 android {
     compileSdkVersion 25
@@ -20,10 +25,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.0.0'
     testCompile 'junit:junit:4.12'
+
+    //Dagger
+    compile "com.google.dagger:dagger:${libs.dagger_version}"
+    apt "com.google.dagger:dagger-compiler:${libs.dagger_version}"
+
+    //RxJava
+    compile "io.reactivex.rxjava2:rxandroid:${libs.rx_android_version}"
+    compile "io.reactivex.rxjava2:rxjava:${libs.rx_java_version}"
+
+    //RxPermissions
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.8.2@aar'
+
+    compile project(':compat')
 }
