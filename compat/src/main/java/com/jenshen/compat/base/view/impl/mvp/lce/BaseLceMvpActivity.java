@@ -1,6 +1,7 @@
 package com.jenshen.compat.base.view.impl.mvp.lce;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
+import com.jenshen.compat.R;
 import com.jenshen.compat.base.view.BaseLceMvpView;
 import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 
@@ -19,6 +21,8 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
 
     @Nullable
     private ViewDelegateActivity viewDelegate;
+    @Nullable
+    private ProgressDialog dialog;
 
     /**
      * invoke this method on child constructor if you want to customise a delegate
@@ -35,6 +39,22 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
     @Override
     public void handleError(Throwable throwable) {
         createDelegateIfNull().handleError(throwable);
+    }
+
+    @Override
+    public void showProgress() {
+        if (dialog != null) {
+            hideProgress();
+        }
+        dialog = ProgressDialog.show(getContext(), getString(R.string.loading), getString(R.string.please_wait));
+    }
+
+    @Override
+    public void hideProgress() {
+        if (dialog != null) {
+            dialog.dismiss();
+            dialog = null;
+        }
     }
 
     @Override

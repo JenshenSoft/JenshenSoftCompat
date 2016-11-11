@@ -1,20 +1,19 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
 
 def cfg = rootProject.ext.configuration
 def libs = rootProject.ext.libraries;
 def testLibs = rootProject.ext.testingLibraries;
 
 android {
-
-    compileSdkVersion cfg.compileSdkVersion
-    buildToolsVersion cfg.buildToolsVersion
-
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
     defaultConfig {
-        applicationId "com.jenshen.compat.example"
-        minSdkVersion cfg.minSdkVersion
-        targetSdkVersion cfg.targetSdkVersion
-        versionCode cfg.versionCode
-        versionName cfg.versionName
+        applicationId "com.jenshensoft.compat"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -26,14 +25,23 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    testCompile 'junit:junit:4.12'
 
-    //support
-    compile "com.android.support:appcompat-v7:${libs.supportVersion}"
+    //Dagger
+    compile "com.google.dagger:dagger:${libs.dagger_version}"
+    apt "com.google.dagger:dagger-compiler:${libs.dagger_version}"
 
-    //testing
-    testCompile "junit:junit:${testLibs.junit}"
+    //RxJava
+    compile "io.reactivex.rxjava2:rxandroid:${libs.rx_android_version}"
+    compile "io.reactivex.rxjava2:rxjava:${libs.rx_java_version}"
+
+    //RxPermissions
+    compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.8.2@aar'
+
+    compile project(':compat')
 }

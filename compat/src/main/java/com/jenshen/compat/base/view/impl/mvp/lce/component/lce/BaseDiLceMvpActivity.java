@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
-import com.jenshen.compat.base.component.PresenterLceComponent;
+import com.jenshen.compat.base.component.presenter.PresenterLceComponent;
 import com.jenshen.compat.base.view.BaseLceMvpView;
 import com.jenshen.compat.base.view.impl.mvp.lce.BaseLceMvpActivity;
+
+import dagger.MembersInjector;
 
 public abstract class BaseDiLceMvpActivity<
         Component extends PresenterLceComponent<M, V, P>,
@@ -16,18 +18,18 @@ public abstract class BaseDiLceMvpActivity<
         V extends BaseLceMvpView<M>,
         P extends MvpPresenter<V>>
 
-        extends BaseLceMvpActivity<CV, M, V, P> {
+        extends BaseLceMvpActivity<CV, M, V, P>
+        implements MembersInjector<Component> {
 
-    public final Component component;
+    @NonNull
+    protected final Component component;
 
     public BaseDiLceMvpActivity() {
         component = createComponent();
-        inject(component);
+        injectMembers(component);
     }
 
     public abstract Component createComponent();
-
-    public abstract void inject(Component activityComponent);
 
     @NonNull
     @Override

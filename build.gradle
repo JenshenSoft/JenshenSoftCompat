@@ -10,11 +10,14 @@ ext {
     ]
 
     libraries = [
-            supportVersion          : "25.0.0",
+            supportVersion : "25.0.0",
             /* https://github.com/ReactiveX/RxAndroid */
-            reactiveVersion         : "2.0.0",
+            reactiveVersion: "2.0.0",
             /* https://github.com/aNNiMON/Lightweight-Stream-API */
-            mosbyVersion            : "2.0.1",
+            mosbyVersion   : "2.0.1",
+            rx_java_version             : '2.0.0',
+            rx_android_version          : '2.0.0',
+            dagger_version : '2.7',
     ]
 
     testingLibraries = [
@@ -29,6 +32,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.2'
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
 
         // Required plugins added to classpath to facilitate pushing to Jcenter/Bintray
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7'

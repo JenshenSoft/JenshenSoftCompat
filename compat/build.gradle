@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.neenbedankt.android-apt'
 
 //bintray
 apply plugin: 'com.github.dcendents.android-maven'
@@ -14,7 +15,7 @@ def gitUrl = 'https://github.com/JenshenSoft/JenshenSoftCompat.git'
 def libDesc = "JenshenSoft compat android library"
 
 group = "ua.jenshensoft"
-version = "0.192"
+version = "0.24"
 
 allprojects {
     repositories {
@@ -32,7 +33,7 @@ android {
 
     compileSdkVersion cfg.compileSdkVersion
     buildToolsVersion cfg.buildToolsVersion
-    resourcePrefix "compat_"
+    resourcePrefix "jenshensoft_compat_"
 
     defaultConfig {
         minSdkVersion cfg.minSdkVersion
@@ -142,6 +143,10 @@ dependencies {
     //reactive
     compile "io.reactivex.rxjava2:rxjava:${libs.reactiveVersion}"
     compile "io.reactivex.rxjava2:rxandroid:${libs.reactiveVersion}"
+
+    //Dagger
+    compile "com.google.dagger:dagger:${libs.dagger_version}"
+    apt "com.google.dagger:dagger-compiler:${libs.dagger_version}"
 
     //testing
     testCompile "junit:junit:${testLibs.junit}"
