@@ -12,15 +12,21 @@ import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 public abstract class BaseActivity extends AppCompatActivity implements BaseView {
 
     @Nullable
-    private ViewDelegateActivity viewDelegate;
+    protected ViewDelegateActivity viewDelegate;
+
+    public ViewDelegateActivity getViewDelegate() {
+        return createDelegateIfNull();
+    }
 
     /**
      * invoke this method on child constructor if you want to customise a delegate
+     *
      * @param viewDelegate
      */
     public void setViewDelegate(@NonNull ViewDelegateActivity viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
+
 
     /* view */
 

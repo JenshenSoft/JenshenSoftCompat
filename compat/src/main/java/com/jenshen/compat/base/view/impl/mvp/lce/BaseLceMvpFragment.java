@@ -25,10 +25,14 @@ public abstract class BaseLceMvpFragment<
         implements BaseLceMvpView<M> {
 
     @Nullable
-    private ViewDelegateFragment viewDelegate;
+    protected ViewDelegateFragment viewDelegate;
     @Nullable
     private ProgressDialog dialog;
-    
+
+    public ViewDelegateFragment getViewDelegate() {
+        return createDelegateIfNull();
+    }
+
     /**
      * invoke this method on child constructor if you want to customise a delegate
      *
@@ -37,6 +41,7 @@ public abstract class BaseLceMvpFragment<
     public void setViewDelegate(@NonNull ViewDelegateFragment viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
+
 
     /* view */
 

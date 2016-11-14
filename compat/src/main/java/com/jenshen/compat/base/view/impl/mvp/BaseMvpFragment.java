@@ -15,9 +15,13 @@ import com.jenshen.compat.util.delegate.ViewDelegateFragment;
 public abstract class BaseMvpFragment<V extends BaseMvpView, P extends MvpPresenter<V>> extends MvpFragment<V, P> implements BaseMvpView {
 
     @Nullable
-    private ViewDelegateFragment viewDelegate;
+    protected ViewDelegateFragment viewDelegate;
     @Nullable
     private ProgressDialog dialog;
+
+    public ViewDelegateFragment getViewDelegate() {
+        return createDelegateIfNull();
+    }
 
     /**
      * invoke this method on child constructor if you want to customise a delegate
@@ -27,6 +31,7 @@ public abstract class BaseMvpFragment<V extends BaseMvpView, P extends MvpPresen
     public void setViewDelegate(@NonNull ViewDelegateFragment viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
+
 
     /* view */
 

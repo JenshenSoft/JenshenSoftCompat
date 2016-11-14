@@ -20,9 +20,13 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
         implements BaseLceMvpView<M> {
 
     @Nullable
-    private ViewDelegateActivity viewDelegate;
+    protected ViewDelegateActivity viewDelegate;
     @Nullable
     private ProgressDialog dialog;
+
+    public ViewDelegateActivity getViewDelegate() {
+        return createDelegateIfNull();
+    }
 
     /**
      * invoke this method on child constructor if you want to customise a delegate

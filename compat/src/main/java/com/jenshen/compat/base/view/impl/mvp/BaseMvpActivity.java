@@ -16,9 +16,13 @@ import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 public abstract class BaseMvpActivity<V extends BaseMvpView, P extends MvpPresenter<V>> extends MvpActivity<V, P> implements BaseMvpView {
 
     @Nullable
-    private ViewDelegateActivity viewDelegate;
+    protected ViewDelegateActivity viewDelegate;
     @Nullable
     private ProgressDialog dialog;
+
+    public ViewDelegateActivity getViewDelegate() {
+        return createDelegateIfNull();
+    }
 
     /**
      * invoke this method on child constructor if you want to customise a delegate
@@ -28,6 +32,7 @@ public abstract class BaseMvpActivity<V extends BaseMvpView, P extends MvpPresen
     public void setViewDelegate(@NonNull ViewDelegateActivity viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
+
 
     /* view */
 

@@ -12,7 +12,11 @@ import com.jenshen.compat.util.delegate.ViewDelegateFragment;
 public abstract class BaseFragment extends Fragment implements BaseView {
 
     @Nullable
-    private ViewDelegateFragment viewDelegate;
+    protected ViewDelegateFragment viewDelegate;
+
+    public ViewDelegateFragment getViewDelegate() {
+        return createDelegateIfNull();
+    }
 
     /**
      * invoke this method on child constructor if you want to customise a delegate
@@ -22,6 +26,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
     public void setViewDelegate(@NonNull ViewDelegateFragment viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
+
 
     /* view */
 
