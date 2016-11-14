@@ -2,6 +2,7 @@ package com.jenshen.compat.base.view.impl.mvp.lce;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,18 +13,20 @@ import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
 import com.jenshen.compat.R;
 import com.jenshen.compat.base.view.BaseLceMvpView;
+import com.jenshen.compat.util.delegate.HasDelegateView;
 import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 
 
 public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMvpView<M>, P extends MvpPresenter<V>>
         extends MvpLceActivity<CV, M, V, P>
-        implements BaseLceMvpView<M> {
+        implements BaseLceMvpView<M>, HasDelegateView<ViewDelegateActivity> {
 
     @Nullable
     protected ViewDelegateActivity viewDelegate;
     @Nullable
     private ProgressDialog dialog;
 
+    @Override
     public ViewDelegateActivity getViewDelegate() {
         return createDelegateIfNull();
     }
@@ -33,6 +36,7 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
      *
      * @param viewDelegate
      */
+    @Override
     public void setViewDelegate(@NonNull ViewDelegateActivity viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
@@ -64,6 +68,11 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
     @Override
     protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
         return createDelegateIfNull().getErrorMessage(e);
+    }
+
+    @Override
+    public Context getContext() {
+        return this;
     }
 
 

@@ -6,14 +6,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 
 import com.jenshen.compat.base.view.BaseView;
+import com.jenshen.compat.util.delegate.HasDelegateView;
 import com.jenshen.compat.util.delegate.ViewDelegateFragment;
 
 
-public abstract class BaseFragment extends Fragment implements BaseView {
+public abstract class BaseFragment extends Fragment implements BaseView, HasDelegateView<ViewDelegateFragment> {
 
     @Nullable
     protected ViewDelegateFragment viewDelegate;
 
+    @Override
     public ViewDelegateFragment getViewDelegate() {
         return createDelegateIfNull();
     }
@@ -23,6 +25,7 @@ public abstract class BaseFragment extends Fragment implements BaseView {
      *
      * @param viewDelegate
      */
+    @Override
     public void setViewDelegate(@NonNull ViewDelegateFragment viewDelegate) {
         this.viewDelegate = viewDelegate;
     }

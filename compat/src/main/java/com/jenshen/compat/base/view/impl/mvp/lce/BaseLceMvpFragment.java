@@ -11,6 +11,7 @@ import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceFragment;
 import com.jenshen.compat.R;
 import com.jenshen.compat.base.view.BaseLceMvpView;
+import com.jenshen.compat.util.delegate.HasDelegateView;
 import com.jenshen.compat.util.delegate.ViewDelegateFragment;
 
 
@@ -22,13 +23,14 @@ public abstract class BaseLceMvpFragment<
 
         extends MvpLceFragment<CV, M, V, P>
 
-        implements BaseLceMvpView<M> {
+        implements BaseLceMvpView<M>, HasDelegateView<ViewDelegateFragment> {
 
     @Nullable
     protected ViewDelegateFragment viewDelegate;
     @Nullable
     private ProgressDialog dialog;
 
+    @Override
     public ViewDelegateFragment getViewDelegate() {
         return createDelegateIfNull();
     }
@@ -38,6 +40,7 @@ public abstract class BaseLceMvpFragment<
      *
      * @param viewDelegate
      */
+    @Override
     public void setViewDelegate(@NonNull ViewDelegateFragment viewDelegate) {
         this.viewDelegate = viewDelegate;
     }

@@ -10,16 +10,19 @@ import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.jenshen.compat.R;
 import com.jenshen.compat.base.view.BaseMvpView;
+import com.jenshen.compat.util.delegate.HasDelegateView;
 import com.jenshen.compat.util.delegate.ViewDelegateActivity;
 
 
-public abstract class BaseMvpActivity<V extends BaseMvpView, P extends MvpPresenter<V>> extends MvpActivity<V, P> implements BaseMvpView {
+public abstract class BaseMvpActivity<V extends BaseMvpView, P extends MvpPresenter<V>> extends MvpActivity<V, P>
+        implements BaseMvpView, HasDelegateView<ViewDelegateActivity> {
 
     @Nullable
     protected ViewDelegateActivity viewDelegate;
     @Nullable
     private ProgressDialog dialog;
 
+    @Override
     public ViewDelegateActivity getViewDelegate() {
         return createDelegateIfNull();
     }
@@ -29,6 +32,7 @@ public abstract class BaseMvpActivity<V extends BaseMvpView, P extends MvpPresen
      *
      * @param viewDelegate
      */
+    @Override
     public void setViewDelegate(@NonNull ViewDelegateActivity viewDelegate) {
         this.viewDelegate = viewDelegate;
     }
