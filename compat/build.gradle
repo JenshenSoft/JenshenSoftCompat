@@ -15,7 +15,7 @@ def gitUrl = 'https://github.com/JenshenSoft/JenshenSoftCompat.git'
 def libDesc = "JenshenSoft compat android library"
 
 group = "ua.jenshensoft"
-version = "0.246"
+version = "0.247"
 
 allprojects {
     repositories {
@@ -141,8 +141,8 @@ dependencies {
     compile "com.hannesdorfmann.mosby:viewstate:${libs.mosbyVersion}"
 
     //reactive
-    compile "io.reactivex.rxjava2:rxjava:${libs.reactiveVersion}"
-    compile "io.reactivex.rxjava2:rxandroid:${libs.reactiveVersion}"
+    compile "io.reactivex.rxjava2:rxjava:${libs.rx_java_version}"
+    compile "io.reactivex.rxjava2:rxandroid:${libs.rx_android_version}"
 
     //Dagger
     compile "com.google.dagger:dagger:${libs.dagger_version}"

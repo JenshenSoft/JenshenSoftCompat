@@ -62,11 +62,6 @@ public abstract class BaseMvpActivity<V extends BaseMvpView, P extends MvpPresen
     }
 
     @Override
-    public boolean isInProgress() {
-        return dialog != null;
-    }
-
-    @Override
     public void handleError(Throwable throwable) {
         createDelegateIfNull().handleError(throwable);
     }
