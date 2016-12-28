@@ -3,23 +3,22 @@ package com.jenshen.compat.util.io;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.AnyRes;
+import android.support.annotation.NonNull;
 
 import java.io.File;
 import java.io.IOException;
 
 public interface IFileSystem {
 
-    File createFileInInternalStorage(String filePath, String fileName);
+    File createFile(String prefix, String suffix, File directory) throws IOException;
 
-    File createImageFile() throws IOException;
+    String getPath(File image);
 
-    String getPathFromFile(File file);
-
-    Uri getUriFromFile(File file);
+    Uri getUriFromFile(String applicationId, File file) throws IOException;
 
     Uri getUriToDrawable(@AnyRes int drawableId);
 
-    void scan(Uri uri);
+    File saveBitmap(@NonNull Bitmap bitmap, @NonNull File file) throws IOException;
 
-    Bitmap decodeSampledBitmapFromFile(String filePath, int maxWidth, int maxHeight) throws IOException;
+    void scan(Uri uri);
 }

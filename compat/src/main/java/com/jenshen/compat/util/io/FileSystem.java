@@ -2,24 +2,21 @@ package com.jenshen.compat.util.io;
 
 import android.content.ContentResolver;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
 import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.AnyRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 
-import com.jenshen.compat.BuildConfig;
-
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 public class FileSystem implements IFileSystem {
+
+    private final static int COMPRESS_QUALITY = 90;
+    private final static Bitmap.CompressFormat COMPRESS_FORMAT = Bitmap.CompressFormat.PNG;
 
     private Context context;
 
@@ -28,35 +25,22 @@ public class FileSystem implements IFileSystem {
     }
 
     @Override
-    public File createFileInInternalStorage(String filePath, String fileName) {
-        ContextWrapper contextWrapper = new ContextWrapper(context);
-        File directory = contextWrapper.getExternalFilesDir(filePath);
-        return new File(directory, fileName);
-    }
-
-    @Override
-    public File createImageFile() throws IOException {
-        // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_DCIM), "Camera");
+    public File createFile(String prefix, String suffix, File directory) throws IOException {
         return File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+                prefix,         /* prefix */
+                suffix,         /* suffix */
+                directory);     /* directory */
     }
 
     @Override
-    public String getPathFromFile(File file) {
-        return "file:" + file.getAbsolutePath();
+    public String getPath(File image) {
+        return "file:" + image.getAbsolutePath();
     }
 
     @Override
-    public Uri getUriFromFile(File file) {
+    public Uri getUriFromFile(String applicationId, File file) throws IOException {
         return FileProvider.getUriForFile(context,
-                BuildConfig.APPLICATION_ID + ".provider",
+                applicationId + ".provider",
                 file);
     }
 
@@ -74,10 +58,20 @@ public class FileSystem implements IFileSystem {
                 + '/' + context.getResources().getResourceEntryName(drawableId));
     }
 
+    @Override
+    public File saveBitmap(@NonNull Bitmap bitmap, @NonNull File file) throws IOException {
+        FileOutputStream fOut = new FileOutputStream(file);
+        bitmap.compress(COMPRESS_FORMAT, COMPRESS_QUALITY, fOut);
+        fOut.flush();
+        fOut.close();
+        return file;
+    }
+
+
     /**
      * ScanFile so it will be appeared on Gallery
      *
-     * @param uri - uri
+     * @param uri
      */
     @Override
     public void scan(Uri uri) {
@@ -87,32 +81,7 @@ public class FileSystem implements IFileSystem {
                 new MediaScannerConnection.OnScanCompletedListener() {
                     @Override
                     public void onScanCompleted(String path, Uri uri1) {
-                        //ignored
                     }
                 });
-    }
-
-    @Override
-    public Bitmap decodeSampledBitmapFromFile(String filePath, int maxWidth, int maxHeight) throws IOException {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(filePath, options);
-
-        options.inSampleSize = calculateInSampleSize(options, maxWidth, maxHeight);
-        options.inJustDecodeBounds = false;
-        return BitmapFactory.decodeFile(filePath, options);
-    }
-
-
-    /* private methods  */
-
-    private static int calculateInSampleSize(BitmapFactory.Options options, int maxWidth, int maxHeight) {
-        int height = options.outHeight;
-        int width = options.outWidth;
-
-        int heightInSampleSize = (int) Math.ceil((double) height / maxHeight);
-        int widthInSampleSize = (int) Math.ceil((double) width / maxWidth);
-
-        return Math.min(heightInSampleSize, widthInSampleSize);
     }
 }
