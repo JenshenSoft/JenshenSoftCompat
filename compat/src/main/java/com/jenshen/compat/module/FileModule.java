@@ -24,7 +24,7 @@ public class FileModule {
 
     @Provides
     @Singleton
-    public IFileCreator providesFileCreator(IFileSystem fileSystem) {
-        return new FileCreator(fileSystem);
+    public IFileCreator providesFileCreator(Context context, IFileSystem fileSystem) {
+        return new FileCreator(context, fileSystem);
     }
 }
