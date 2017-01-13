@@ -53,7 +53,7 @@ public abstract class BaseLceMvpFragment<
         if (dialog != null) {
             hideProgress();
         }
-        dialog = ProgressDialog.show(getContext(), getString(R.string.loading), getString(R.string.please_wait));
+        dialog = createDelegateIfNull().showProgressDialog();
     }
 
     @Override

@@ -14,7 +14,7 @@ public class ViewDelegateActivity extends ViewDelegate {
     @Override
     public void handleError(Throwable throwable) {
         throwable.printStackTrace();
-        createAlertDialog(getErrorMessage(throwable), null).show();
+        showAlertDialog(getErrorMessage(throwable), null);
     }
 
     public void onStart() {

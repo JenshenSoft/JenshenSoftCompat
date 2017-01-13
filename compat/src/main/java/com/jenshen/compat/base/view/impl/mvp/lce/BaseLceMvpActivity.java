@@ -11,7 +11,6 @@ import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.lce.MvpLceActivity;
-import com.jenshen.compat.R;
 import com.jenshen.compat.base.view.BaseLceMvpView;
 import com.jenshen.compat.util.delegate.HasDelegateView;
 import com.jenshen.compat.util.delegate.ViewDelegateActivity;
@@ -54,7 +53,7 @@ public abstract class BaseLceMvpActivity<CV extends View, M, V extends BaseLceMv
         if (dialog != null) {
             hideProgress();
         }
-        dialog = ProgressDialog.show(getContext(), getString(R.string.loading), getString(R.string.please_wait));
+        dialog = createDelegateIfNull().showProgressDialog();
     }
 
     @Override

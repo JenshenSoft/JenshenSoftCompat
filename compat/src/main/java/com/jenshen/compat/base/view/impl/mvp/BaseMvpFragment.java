@@ -43,7 +43,7 @@ public abstract class BaseMvpFragment<V extends BaseMvpView, P extends MvpPresen
         if (dialog != null) {
             hideProgress();
         }
-        dialog = ProgressDialog.show(getContext(), getString(R.string.loading), getString(R.string.please_wait));
+        dialog = createDelegateIfNull().showProgressDialog();
     }
 
     @Override
